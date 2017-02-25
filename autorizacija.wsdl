@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="autorizacija"
+    targetNamespace="http://localhost:8000/autorizacija"
+    xmlns="http://localhost:8000/autorizacija"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+    <wsdl:message name="autRequest">
+        <wsdl:part name="email" type="xs:string"/>
+        <wsdl:part name="slaptazodis" type="xs:string"/>
+    </wsdl:message>
+
+    <wsdl:message name="autResponse">
+        <wsdl:part name="tikrinimas" type="xs:boolean"/>
+    </wsdl:message>
+
+    <wsdl:portType name="autPortType">
+
+        <wsdl:operation name="patvirtinimas">
+            <wsdl:input message="autRequest"/>
+            <wsdl:output message="autResponse"/>
+        </wsdl:operation>
+
+    </wsdl:portType>
+
+    <wsdl:binding name="autPortTypeSoapBinding" type="autPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="patvirtinimas">
+            <soap:operation soapAction="patvirtinimas"/>
+            <wsdl:input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+    </wsdl:binding>
+    <wsdl:service name="AutorizacijosServisas">
+        <wsdl:port binding="autPortTypeSoapBinding" name="autPort">
+            <soap:address location="http://localhost:8001/tears"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
